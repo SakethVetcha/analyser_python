@@ -4,7 +4,7 @@ import json
 import websocket
 
 
-WS_URL = "ws://localhost:8080"
+WS_URL = "wss://excel-sheet-analyser-1.onrender.com/"
 
 def send_json_to_ws(json_data):
     try:
