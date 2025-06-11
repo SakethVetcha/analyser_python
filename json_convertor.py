@@ -23,7 +23,7 @@ def is_date(val):
         return False
 
 def get_excel_json():
-    st.title("Excel Sheet Data Analyzer (First Two Sheets)")
+    st.title("Excel Sheet Data Analyzer ")
     
     uploaded_file = st.file_uploader("Choose an Excel file", type=['xlsx'])
     
