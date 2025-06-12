@@ -16,7 +16,6 @@ def send_json_to_ws(json_data):
 
 def is_date(val):
     try:
-        # Accepts both string and numeric dates
         pd.to_datetime(val, errors='raise')
         return True
     except:
@@ -47,6 +46,8 @@ def get_excel_json():
             for sheet_name in selected_sheets:
                 df = dfs[sheet_name]
                 df.columns = df.columns.str.replace(' ', '_')
+                # Remove completely empty rows
+                df = df.dropna(how='all')
                 df = df.fillna(0)
 
                 first_col = df.columns[0]
@@ -73,7 +74,6 @@ def get_excel_json():
                             meta_info[key] = value
 
                 # Combine into final structure
-                # Sheet name: replace spaces with underscores
                 safe_sheet_name = sheet_name.replace(' ', '_')
                 sheet_json = {"data": data}
                 sheet_json.update(meta_info)
