@@ -63,11 +63,14 @@ def get_excel_json():
                 meta_info = {}
                 for _, row in meta_rows.iterrows():
                     key = str(row[first_col]).strip()
-                    if key and key != "0":
+                    # Skip rows where key is empty, '0', or contains only whitespace
+                    if key and key != "0" and not key.isspace():
                         value = row.iloc[1] if len(row) > 1 else None
                         if pd.isna(value) or value == "":
                             value = None
-                        meta_info[key] = value
+                        # Only add non-empty rows to meta_info
+                        if value is not None:
+                            meta_info[key] = value
 
                 # Combine into final structure
                 # Sheet name: replace spaces with underscores
