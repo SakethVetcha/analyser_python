@@ -31,11 +31,17 @@ def get_excel_json():
             xl = pd.ExcelFile(uploaded_file)
             json_data = {}
 
-            # Skip the first two sheets (adjust as needed)
+            # Skip the first sheet
             for sheet_name in xl.sheet_names[1:]:
                 df = pd.read_excel(uploaded_file, sheet_name=sheet_name)
                 df.columns = df.columns.str.replace(' ', '_')
-                df = df.fillna(0)
+
+                if df.empty:
+                    # Create a single row with 0 for each column
+                    df = pd.DataFrame([{col: 0 for col in df.columns}])
+                else:
+                    df = df.fillna(0)
+
                 df = convert_dates_to_iso(df)  # Convert date columns to ISO strings
                 data = json.loads(df.to_json(orient='records'))
                 safe_sheet_name = sheet_name.replace(' ', '_')
