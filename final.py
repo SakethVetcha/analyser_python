@@ -3,14 +3,13 @@ import json
 import websocket
 from datetime import datetime
 
-WS_URL = "wss://excel-sheet-analyser.onrender.com"
-EXCEL_FILE_PATH = r"C:\Users\saket\Downloads\News letter Template.xlsx"  # Local file path https://drive.google.com/drive/folders/1gvRCjm0n2raPFVTPVXa6orX9dK5JzBMm
+WS_URL = "wss://excel-sheet-analyser-1.onrender.com/"
+EXCEL_FILE_PATH = r"C:\Users\saket\Downloads\News letter Template.xlsx"  # Local file path
+OUTPUT_JSON_FILE = "newsletter_data.json"  # File to save the JSON data
 
 def send_json_to_ws(json_data):
     try:
         ws = websocket.create_connection(WS_URL)
-        ws.send("test message") 
-        print(json_data)
         ws.send(json.dumps(json_data))
         ws.close()
         print(f"[{datetime.now()}] JSON sent to WebSocket server at {WS_URL}")
@@ -39,12 +38,20 @@ def process_excel_file(file_path):
         json_data[safe_sheet_name] = data
     return json_data
 
+def save_json_to_file(json_data, filename):
+    try:
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(json_data, f, indent=4)
+        print(f"[{datetime.now()}] JSON data saved to {filename}")
+    except Exception as e:
+        print(f"[{datetime.now()}] Error saving JSON to file: {e}")
+
 def main():
     try:
         print(f"[{datetime.now()}] Processing local Excel file...")
         json_data = process_excel_file(EXCEL_FILE_PATH)
+        save_json_to_file(json_data, OUTPUT_JSON_FILE)  # Save data to file
         print(f"[{datetime.now()}] Sending JSON to WebSocket server...")
-        
         send_json_to_ws(json_data)
         print(f"[{datetime.now()}] Process completed successfully.")
     except Exception as e:

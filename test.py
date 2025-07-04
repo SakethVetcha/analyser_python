@@ -4,8 +4,8 @@ import websocket
 import requests
 from datetime import datetime
 
-WS_URL = "wss://excel-sheet-analyser-1.onrender.com/"
-EXCEL_FILE_URL = "https://your-file-server.com/path/to/excel-file.xlsx"  # <-- Change this! to https://drive.google.com/uc?export=download&id=FILE_ID
+WS_URL = "wss://excel-sheet-analyser.onrender.com/"
+EXCEL_FILE_URL = "https://drive.google.com/uc?export=download&id=12tpbZ__5DCEh-uguqzFQbLFOvXLLwz6q"  # <-- Change this! to https://drive.google.com/uc?export=download&id=FILE_ID
 
 
 def send_json_to_ws(json_data):
